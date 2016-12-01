@@ -15,7 +15,7 @@ module.exports = function(grunt) {
     },
 
     nodemon: {
-      dev: {
+      dev: { //testing commits
         script: 'server.js'
       }
     },
