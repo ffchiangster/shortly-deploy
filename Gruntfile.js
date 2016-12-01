@@ -28,7 +28,7 @@ module.exports = function(grunt) {
     },
 
     uglify: {
-      my_target: {
+      target: {
         files: {
           'public/dist/output.min.js': ['public/dist/client.js']
         }
@@ -44,7 +44,7 @@ module.exports = function(grunt) {
     cssmin: {
       combine: {
         files: {
-          'public/dist/output.css': ['public/style.css']
+          'public/dist/output.min.css': ['public/style.css']
         }
       }
     },
@@ -75,10 +75,7 @@ module.exports = function(grunt) {
     shell: {
       prodServer: {
         command: ['grunt upload --prod',
-         'git add .',
-         'git commit -m \'auto commit\'',
-         'git push live master',
-
+         'git push live master'
          ].join(' && ')
       }
     },
@@ -110,7 +107,6 @@ module.exports = function(grunt) {
   grunt.registerTask('build', ['prebuild', 'concat', 'uglify', 'cssmin']);
 
   grunt.registerTask('upload', function(n) {
-    console.log(n);
     if (grunt.option('prod')) {
       grunt.task.run([ 'build' ]);
       // add your production server task here
