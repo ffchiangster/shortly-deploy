@@ -4,14 +4,14 @@ var expect = require('chai').expect;
 var app = require('../server-config.js');
 
 var db = require('../app/config');
-var User = require('../app/models/user');
-var Link = require('../app/models/link');
+var User = require('../app/config').users;
+var Link = require('../app/config').links;
 
 /////////////////////////////////////////////////////
 // NOTE: these tests are designed for mongo!
 /////////////////////////////////////////////////////
 
-xdescribe('', function() {
+describe('', function() {
 
   beforeEach(function(done) {
     // Log out currently signed in user
@@ -28,7 +28,7 @@ xdescribe('', function() {
       });
   });
 
-  describe('Link creation: ', function() {
+  xdescribe('Link creation: ', function() {
 
     it('Only shortens valid urls, returning a 404 - Not found for invalid urls', function(done) {
       request(app)
@@ -49,6 +49,8 @@ xdescribe('', function() {
           .expect(200)
           .expect(function(res) {
             expect(res.body.url).to.equal('http://www.roflzoo.com/');
+            console.log('auto code');
+            console.log(res.body);
             expect(res.body.code).to.be.ok;
           })
           .end(done);
@@ -97,6 +99,7 @@ xdescribe('', function() {
           baseUrl: 'http://127.0.0.1:4568',
           visits: 0
         });
+        // link.cryptoUrl();
 
         link.save(function() {
           done();
@@ -133,7 +136,7 @@ xdescribe('', function() {
 
   }); // 'Link creation'
 
-  describe('Priviledged Access:', function() {
+  xdescribe('Priviledged Access:', function() {
 
     // /*  Authentication  */
     // // TODO: xit out authentication
@@ -171,7 +174,7 @@ xdescribe('', function() {
 
   describe('Account Creation:', function() {
 
-    it('Signup creates a new user', function(done) {
+    xit('Signup creates a new user', function(done) {
       request(app)
         .post('/signup')
         .send({
@@ -181,6 +184,7 @@ xdescribe('', function() {
         .expect(function() {
           User.findOne({'username': 'Svnh'})
             .exec(function(err, user) {
+              console.log(user.username);
               expect(user.username).to.equal('Svnh');
             });
         })
@@ -205,7 +209,7 @@ xdescribe('', function() {
 
   }); // 'Account Creation'
 
-  describe('Account Login:', function() {
+  xdescribe('Account Login:', function() {
 
     beforeEach(function(done) {
       new User({
