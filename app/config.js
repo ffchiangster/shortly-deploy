@@ -14,14 +14,14 @@ var userSchema = new Schema({
 
 });
 
-userSchema.pre('save', function(next) {
-  var cipher = Promise.promisify(bcrypt.hash);
-  return cipher(this.password, null, null).bind(this)
-    .then(function(hash) {
-      this.password = hash;
-      next();
-    });  
-});
+// userSchema.pre('save', function(next) {
+//   var cipher = Promise.promisify(bcrypt.hash);
+//   return cipher(this.password, null, null).bind(this)
+//     .then(function(hash) {
+//       this.password = hash;
+//       next();
+//     });  
+// });
 
 var urlsSchema = new Schema({
   url: { type: String },
@@ -41,6 +41,17 @@ urlsSchema.pre('save', function(next) {
 
 var Users = mongoose.model('Users', userSchema);
 var Links = mongoose.model('Links', urlsSchema);
+
+Users.prototype.comparePassword = function(attemptedPassword, callback) {
+  // bcrypt.compare(attemptedPassword, this.password, function(err, isMatch) {
+  //   callback(isMatch);
+  // });
+  if (attemptedPassword === this.password) {
+    callback(true);
+  } else {
+    callback(false);
+  }
+};
 
 module.exports.users = Users;
 module.exports.links = Links;

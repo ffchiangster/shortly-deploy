@@ -174,7 +174,7 @@ describe('', function() {
 
   describe('Account Creation:', function() {
 
-    xit('Signup creates a new user', function(done) {
+    it('Signup creates a new user', function(done) {
       request(app)
         .post('/signup')
         .send({
@@ -209,7 +209,7 @@ describe('', function() {
 
   }); // 'Account Creation'
 
-  xdescribe('Account Login:', function() {
+  describe('Account Login:', function() {
 
     beforeEach(function(done) {
       new User({
